@@ -1,17 +1,34 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import NewTaskForm from './components/NewTaskForm/NewTaskForm';
+import TaskList from './components/TaskList/TaskList';
+import Footer from './components/Footer/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const App = () => {
+
+const taskData = [
+  {createdTime:'created 17 seconds ago', status: 'completed', descriptionName: 'Completed task'},
+  {createdTime:'created 17 seconds ago', status: 'editing', descriptionName: 'Completed task'},
+  {createdTime:'created 5 minutes ago', descriptionName: 'Active task'}
+
+];
+  return (
+    <section className='todoapp'>
+      <header>
+        <h1>todos</h1>
+        <NewTaskForm />
+      </header>
+      <section className='main'>
+        <TaskList todos={taskData}/>
+        <Footer/>
+      </section>
+    </section>
+  );
+}
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <App/>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
