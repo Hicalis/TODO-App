@@ -4,9 +4,9 @@ import TasksFilter from '../TasksFilter/TasksFilter';
 const Footer = () => {
     return(
         <footer className='footer'>
-            <span class="todo-count">1 items left</span>
+            <span className="todo-count">1 items left</span>
             <TasksFilter />
-            <button class="clear-completed">Clear completed</button>
+            <button className="clear-completed">Clear completed</button>
         </footer>
     );
 };

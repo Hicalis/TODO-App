@@ -1,18 +1,26 @@
 import Task from "../Task/Task";
 import './TaskList.css'
 
-const TaskList = ({ todos }) => {
+const TaskList = ({ todos, onDeleted, onCompleted }) => {
+
+    
 
     const elements = todos.map((item)=>{
-        if(item.status === 'completed'){
-            return(<li className={item.status}><Task name = {item.descriptionName} time = {item.createdTime}/></li>)
+
+        const {id} = item;
+
+        if(item.isEditing){
+            return (<li className="editing" key={id}><Task name = {item.descriptionName} time = {item.createdTime}/><input type="text" className="edit" value="Editing task"/></li>);
         }
-        else if(item.status === 'editing'){
-            return (<li className={item.status}><Task name = {item.descriptionName} time = {item.createdTime}/><input type="text" class="edit" value="Editing task"/></li>);
+
+        if(item.isCompleted){
+            return(<li className="completed"  key={id}><Task onDeleted={()=>{onDeleted(id)}} onCompleted={()=>{onCompleted(id)}} name = {item.descriptionName} time = {item.createdTime}/></li>)
         }
         else{
-            return (<li><Task name = {item.descriptionName} time = {item.createdTime}/></li>);
+            return (<li  key={id}><Task onDeleted={()=>{onDeleted(id)}} onCompleted={()=>{onCompleted(id)}} name = {item.descriptionName} time = {item.createdTime}/></li>);
         }
+
+        
     });
 
     return (
