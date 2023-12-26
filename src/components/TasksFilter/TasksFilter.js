@@ -1,19 +1,32 @@
+import { Component } from 'react';
 import './TasksFilter.css'
 
-const TasksFilter = () => {
-    return(
-        <ul className='filters'>
-            <li>
-                <button className='selected'>All</button>
-            </li>
-            <li>
-                <button>Active</button>
-            </li>
-            <li>
-                <button>Completed</button>
-            </li>
-        </ul>
-    );
-}
+export default class TasksFilter extends Component{
 
-export default TasksFilter;
+    selectButton = (event) => {
+        event.currentTarget.classList.toggle('selected');
+    }
+
+    state = {
+        className: 'selected'
+    };
+
+    render(){
+        
+        const {onAllTask, onActiveTask, onCompletedTask, filter} = this.props;
+
+        return(
+            <ul className='filters'>
+                <li>
+                    <button className={filter === 'All' ? 'selected' : null} onClick={ onAllTask }>All</button>
+                </li>
+                <li>
+                    <button className={filter === 'Active' ? 'selected' : null} onClick = { onActiveTask } >Active</button>
+                </li>
+                <li>
+                    <button className={filter === 'Completed' ? 'selected' : null} onClick={ onCompletedTask }>Completed</button>
+                </li>
+            </ul>
+        );
+    }
+}

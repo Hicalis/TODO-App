@@ -1,12 +1,11 @@
 import { Component } from "react";
+import { formatDistanceToNow } from 'date-fns';
 
 
 export default class Task extends Component{
     render(){
         
-        
-
-        const { name,time,onDeleted,onCompleted } = this.props;
+        const { name, time, onDeleted, onCompleted, onEditing } = this.props;
 
         return (
             <div className="view">
@@ -15,8 +14,8 @@ export default class Task extends Component{
                     <span className="description">{ name }</span>
                     <span className="created">{ time }</span>
                 </label>
-                <button className="icon icon-edit"/>
-                <button className="icon icon-destroy" onClick={onDeleted}/>
+                <button className="icon icon-edit" onClick={ onEditing }/>
+                <button className="icon icon-destroy" onClick={ onDeleted }/>
             </div>
         );
     }
