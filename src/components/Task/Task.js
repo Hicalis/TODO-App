@@ -12,7 +12,7 @@ export default class Task extends Component{
                 <input className="toggle" type="checkbox" onClick={ onCompleted }/>
                 <label>
                     <span className="description">{ name }</span>
-                    <span className="created">{ time }</span>
+                    <span className="created">{ formatDistanceToNow(time, {includeSeconds: true}) }</span>
                 </label>
                 <button className="icon icon-edit" onClick={ onEditing }/>
                 <button className="icon icon-destroy" onClick={ onDeleted }/>

@@ -4,7 +4,6 @@ import NewTaskForm from './components/NewTaskForm/NewTaskForm';
 import TaskList from './components/TaskList/TaskList';
 import Footer from './components/Footer/Footer';
 import { Component } from 'react';
-import { formatDistanceToNow } from 'date-fns';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -13,11 +12,7 @@ export default class App extends Component {
   maxId = 100;
 
   state={
-    taskData : [
-      this.createTodoItem('Completed task'),
-      this.createTodoItem('Completed task'),
-      this.createTodoItem('Active task')
-    ],
+    taskData : [],
     filter: 'All'
   }
 
@@ -67,18 +62,6 @@ export default class App extends Component {
     })
   }
 
-  // editNameTask = (id, text) => {
-  //   this.setState(({ taskData }) => {
-  //     const idx = taskData.findIndex((el)=> el.id === id);
-  //     const oldItem = taskData[idx];
-  //     const newItem = {...oldItem, descriptionName: text};
-  //     const newData = [...taskData.slice(0, idx),newItem,...taskData.slice(idx+1)];
-  //     return{
-  //       taskData:newData
-  //     }
-  //   });
-  // }
-
   addItem = (text) => {
     const newItem = this.createTodoItem(text);
     this.setState(({ taskData })=>{
@@ -89,11 +72,11 @@ export default class App extends Component {
     });
   };
 
-  nameEdit = (id, text) => {
+  nameEdit = (id,label) => {
     this.setState(({ taskData })=>{
       const idx = taskData.findIndex((el)=> el.id === id);
       const oldItem = taskData[idx];
-      const newItem = {...oldItem, descriptionName: text, isEditing: false};
+      const newItem = {...oldItem, isEditing: false, descriptionName: label};
       const newData = [...taskData.slice(0, idx),newItem,...taskData.slice(idx+1)];
       return{
         taskData:newData
@@ -102,10 +85,10 @@ export default class App extends Component {
   }
 
   createTodoItem(descriptionName){
-    const date = new Date();
+    let date = new Date();
     return{
       id : this.maxId++, 
-      createdTime: formatDistanceToNow(date), 
+      createdTime: date, 
       descriptionName,
       isEditing: false, 
       isCompleted: false

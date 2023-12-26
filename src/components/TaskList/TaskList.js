@@ -5,18 +5,24 @@ import './TaskList.css'
 export default class TaskList extends Component{
 
     state = {
+        id: 1,
         label: ''
-    };
+    }
 
     onLabelChange = (event) => {
         this.setState({
+            id: event.target.id,
             label: event.target.value
-        });
+        })
     };
 
     onSubmit = (event) => {
         event.preventDefault();
-        this.props.onEditName(this.state.label)
+        this.props.onEditName(parseInt(this.state.id), this.state.label);
+        this.setState({
+            id: 1,
+            label: ''
+        })
     }
     
     render(){
@@ -34,12 +40,14 @@ export default class TaskList extends Component{
                             <form onSubmit={this.onSubmit}> 
                                 <Task 
                                     name = {item.descriptionName} 
-                                    time = {item.createdTime}/>
+                                    time = {item.createdTime} 
+                                />
                                 <input 
+                                    id = {id}
                                     type="text" 
                                     className="edit" 
-                                    value={this.state.label}
-                                    onChange={this.onLabelChange}/>
+                                    onChange={this.onLabelChange}
+                                    />
                             </form>
 
                     </li>
@@ -54,7 +62,8 @@ export default class TaskList extends Component{
                             onDeleted={()=>{onDeleted(id)}} 
                             onCompleted={()=>{onCompleted(id)}} 
                             name = {item.descriptionName} 
-                            time = {item.createdTime}/>
+                            time = {item.createdTime} 
+                            />
                     </li>)
             }
             else{
@@ -64,8 +73,9 @@ export default class TaskList extends Component{
                             onEditing = {()=>{onEditing(id)}}
                             onDeleted={()=>{onDeleted(id)}} 
                             onCompleted={()=>{onCompleted(id)}} 
-                            name = {item.descriptionName} 
-                            time = {item.createdTime}/>
+                            name = {item.descriptionName}
+                            time = {item.createdTime} 
+                            />
                     </li>);
             }
 
