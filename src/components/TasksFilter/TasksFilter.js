@@ -1,7 +1,22 @@
 import { Component } from 'react';
 import './TasksFilter.css'
+import PropTypes from 'prop-types';
 
 export default class TasksFilter extends Component{
+
+    static defaultProps = {
+        filter: 'All',
+        onCompletedTask: () => {},
+        onActiveTask:  () => {},
+        onAllTask: () => {}    
+    };
+
+    static propTypes = {
+        filter: PropTypes.string,
+        onCompletedTask: PropTypes.func,
+        onActiveTask: PropTypes.func,
+        onAllTask: PropTypes.func
+    };
 
     selectButton = (event) => {
         event.currentTarget.classList.toggle('selected');

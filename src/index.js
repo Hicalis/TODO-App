@@ -119,7 +119,7 @@ export default class App extends Component {
     });
   }
 
-  filetrItem = () => {
+  filterItem = () => {
     const { taskData, filter } = this.state;
     if(filter === 'All'){
       return taskData
@@ -147,7 +147,7 @@ export default class App extends Component {
           </header>
           <section className='main'>
             <TaskList 
-              todos={ this.filetrItem() }
+              todos={ this.filterItem() }
               onDeleted={this.deleteItem}
               onCompleted ={this.completeTask}
               onEditing = {this.editTask}

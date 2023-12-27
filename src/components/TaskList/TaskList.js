@@ -1,8 +1,24 @@
 import { Component } from "react";
 import Task from "../Task/Task";
 import './TaskList.css'
+import PropTypes from 'prop-types';
+
 
 export default class TaskList extends Component{
+
+    static defaultProps = {
+        todos: [{}], 
+        onDeleted: () => {}, 
+        onCompleted: () => {}, 
+        onEditing: () => {}
+    };
+
+    static propTypes = {
+        todos: PropTypes.arrayOf(PropTypes.object),
+        onDeleted: PropTypes.func, 
+        onCompleted: PropTypes.func, 
+        onEditing: PropTypes.func
+    };
 
     state = {
         id: 1,
