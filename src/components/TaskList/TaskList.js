@@ -23,6 +23,9 @@ export default class TaskList extends Component {
 
   onSubmit(event) {
     event.preventDefault()
+    if (this.state.label == '' || /^ *$/.test(this.state.label)) {
+      return
+    }
     this.props.onEditName(parseInt(this.state.id), this.state.label)
     this.setState({
       id: 1,

@@ -17,7 +17,7 @@ export default class NewTaskForm extends Component {
 
   onSubmit(event) {
     event.preventDefault()
-    if (this.state.label === '') {
+    if (this.state.label == '' || /^ *$/.test(this.state.label)) {
       return
     }
     this.props.onItemAdded(this.state.label)
