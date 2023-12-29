@@ -1,14 +1,14 @@
-import { Component } from 'react';
-import './TasksFilter.css';
-import PropTypes from 'prop-types';
+import { Component } from 'react'
+import './TasksFilter.css'
+import PropTypes from 'prop-types'
 
 export default class TasksFilter extends Component {
   selectButton(event) {
-    event.currentTarget.classList.toggle('selected');
+    event.currentTarget.classList.toggle('selected')
   }
 
   render() {
-    const { onAllTask, onActiveTask, onCompletedTask, filter } = this.props;
+    const { onAllTask, onActiveTask, onCompletedTask, filter } = this.props
 
     return (
       <ul className="filters">
@@ -28,7 +28,7 @@ export default class TasksFilter extends Component {
           </button>
         </li>
       </ul>
-    );
+    )
   }
 }
 
@@ -37,11 +37,11 @@ TasksFilter.propTypes = {
   onCompletedTask: PropTypes.func,
   onActiveTask: PropTypes.func,
   onAllTask: PropTypes.func,
-};
+}
 
 TasksFilter.defaultProps = {
   filter: 'All',
   onCompletedTask: () => {},
   onActiveTask: () => {},
   onAllTask: () => {},
-};
+}

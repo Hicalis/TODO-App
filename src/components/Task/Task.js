@@ -1,10 +1,10 @@
-import { Component } from 'react';
-import { formatDistanceToNow } from 'date-fns';
-import PropTypes from 'prop-types';
+import { Component } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import PropTypes from 'prop-types'
 
 export default class Task extends Component {
   render() {
-    const { name, time, onDeleted, onCompleted, onEditing } = this.props;
+    const { name, time, onDeleted, onCompleted, onEditing } = this.props
 
     return (
       <div className="view">
@@ -16,7 +16,7 @@ export default class Task extends Component {
         <button className="icon icon-edit" onClick={onEditing} />
         <button className="icon icon-destroy" onClick={onDeleted} />
       </div>
-    );
+    )
   }
 }
 
@@ -26,7 +26,7 @@ Task.defaultProps = {
   onDeleted: () => {},
   onCompleted: () => {},
   onEditing: () => {},
-};
+}
 
 Task.propTypes = {
   name: PropTypes.string,
@@ -34,4 +34,4 @@ Task.propTypes = {
   onDeleted: PropTypes.func,
   onCompleted: PropTypes.func,
   onEditing: PropTypes.func,
-};
+}

@@ -1,42 +1,42 @@
-import { Component } from 'react';
-import './NewTaskForm.css';
+import { Component } from 'react'
+import './NewTaskForm.css'
 
 export default class NewTaskForm extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       label: '',
-    };
+    }
   }
 
-  onLabelChange = (event) => {
+  onLabelChange(event) {
     this.setState({
       label: event.target.value,
-    });
-  };
+    })
+  }
 
-  onSubmit = (event) => {
-    event.preventDefault();
+  onSubmit(event) {
+    event.preventDefault()
     if (this.state.label === '') {
-      return;
+      return
     }
-    this.props.onItemAdded(this.state.label);
+    this.props.onItemAdded(this.state.label)
     this.setState({
       label: '',
-    });
-  };
+    })
+  }
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit.bind(this)}>
         <input
           className="new-todo"
           placeholder="What needs to be done?"
           autoFocus
-          onChange={this.onLabelChange}
+          onChange={this.onLabelChange.bind(this)}
           value={this.state.label}
         />
       </form>
-    );
+    )
   }
 }

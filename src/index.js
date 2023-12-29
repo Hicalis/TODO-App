@@ -1,161 +1,161 @@
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import { Component } from 'react';
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import { Component } from 'react'
 
-import NewTaskForm from './components/NewTaskForm/NewTaskForm';
-import TaskList from './components/TaskList/TaskList';
-import Footer from './components/Footer/Footer';
+import NewTaskForm from './components/NewTaskForm/NewTaskForm'
+import TaskList from './components/TaskList/TaskList'
+import Footer from './components/Footer/Footer'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 
 export default class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       taskData: [],
       filter: 'All',
-    };
-    this.maxId = 100;
+    }
+    this.maxId = 100
   }
 
-  deleteItem = (id) => {
+  deleteItem(id) {
     this.setState(({ taskData }) => {
-      const idx = taskData.findIndex((el) => el.id === id);
-      const newData = [...taskData.slice(0, idx), ...taskData.slice(idx + 1)];
+      const idx = taskData.findIndex((el) => el.id === id)
+      const newData = [...taskData.slice(0, idx), ...taskData.slice(idx + 1)]
       return {
         taskData: newData,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  completeTask = (id) => {
+  completeTask(id) {
     this.setState(({ taskData }) => {
-      const idx = taskData.findIndex((el) => el.id === id);
-      const oldItem = taskData[idx];
-      const newItem = { ...oldItem, isCompleted: !oldItem.isCompleted };
-      const newData = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)];
+      const idx = taskData.findIndex((el) => el.id === id)
+      const oldItem = taskData[idx]
+      const newItem = { ...oldItem, isCompleted: !oldItem.isCompleted }
+      const newData = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)]
 
       return {
         taskData: newData,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  clearCompleted = () => {
+  clearCompleted() {
     this.setState(({ taskData }) => {
-      const newData = taskData.filter((element) => !element.isCompleted);
+      const newData = taskData.filter((element) => !element.isCompleted)
       return {
         taskData: newData,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  editTask = (id) => {
+  editTask(id) {
     this.setState(({ taskData }) => {
-      const idx = taskData.findIndex((el) => el.id === id);
-      const oldItem = taskData[idx];
-      const newItem = { ...oldItem, isEditing: !oldItem.isEditing };
-      const newData = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)];
+      const idx = taskData.findIndex((el) => el.id === id)
+      const oldItem = taskData[idx]
+      const newItem = { ...oldItem, isEditing: !oldItem.isEditing }
+      const newData = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)]
       return {
         taskData: newData,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  addItem = (text) => {
-    const newItem = this.createTodoItem(text);
+  addItem(text) {
+    const newItem = this.createTodoItem(text)
     this.setState(({ taskData }) => {
-      const newData = [...taskData, newItem];
+      const newData = [...taskData, newItem]
       return {
         taskData: newData,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  nameEdit = (id, label) => {
+  nameEdit(id, label) {
     this.setState(({ taskData }) => {
-      const idx = taskData.findIndex((el) => el.id === id);
-      const oldItem = taskData[idx];
-      const newItem = { ...oldItem, isEditing: false, descriptionName: label };
-      const newData = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)];
+      const idx = taskData.findIndex((el) => el.id === id)
+      const oldItem = taskData[idx]
+      const newItem = { ...oldItem, isEditing: false, descriptionName: label }
+      const newData = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)]
       return {
         taskData: newData,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  createTodoItem = (descriptionName) => {
-    const date = new Date();
+  createTodoItem(descriptionName) {
+    const date = new Date()
     return {
       id: this.maxId++,
       createdTime: date,
       descriptionName,
       isEditing: false,
       isCompleted: false,
-    };
-  };
+    }
+  }
 
-  showCompletedTask = () => {
+  showCompletedTask() {
     this.setState(() => ({
       filter: 'Completed',
-    }));
-  };
+    }))
+  }
 
-  showAllTask = () => {
+  showAllTask() {
     this.setState(() => ({
       filter: 'All',
-    }));
-  };
+    }))
+  }
 
-  showActiveTask = () => {
+  showActiveTask() {
     this.setState(() => ({
       filter: 'Active',
-    }));
-  };
+    }))
+  }
 
-  filterItem = () => {
-    const { taskData, filter } = this.state;
+  filterItem() {
+    const { taskData, filter } = this.state
     if (filter === 'All') {
-      return taskData;
+      return taskData
     }
     if (filter === 'Active') {
-      return taskData.filter((item) => !item.isCompleted);
+      return taskData.filter((item) => !item.isCompleted)
     }
     if (filter === 'Completed') {
-      return taskData.filter((item) => item.isCompleted);
+      return taskData.filter((item) => item.isCompleted)
     }
-  };
+  }
 
   render() {
-    const doneCount = this.state.taskData.filter((el) => el.isCompleted).length;
+    const doneCount = this.state.taskData.filter((el) => el.isCompleted).length
 
-    const todoCount = this.state.taskData.length - doneCount;
+    const todoCount = this.state.taskData.length - doneCount
 
     return (
       <section className="todoapp">
         <header>
           <h1>todos</h1>
-          <NewTaskForm onItemAdded={this.addItem} />
+          <NewTaskForm onItemAdded={this.addItem.bind(this)} />
         </header>
         <section className="main">
           <TaskList
             todos={this.filterItem()}
-            onDeleted={this.deleteItem}
-            onCompleted={this.completeTask}
-            onEditing={this.editTask}
-            onEditName={this.nameEdit}
+            onDeleted={this.deleteItem.bind(this)}
+            onCompleted={this.completeTask.bind(this)}
+            onEditing={this.editTask.bind(this)}
+            onEditName={this.nameEdit.bind(this)}
           />
           <Footer
             filter={this.state.filter}
             todoCount={todoCount}
-            onClearCompleted={this.clearCompleted}
-            onActiveTask={this.showActiveTask}
-            onCompletedTask={this.showCompletedTask}
-            onAllTask={this.showAllTask}
+            onClearCompleted={this.clearCompleted.bind(this)}
+            onActiveTask={this.showActiveTask.bind(this)}
+            onCompletedTask={this.showCompletedTask.bind(this)}
+            onAllTask={this.showAllTask.bind(this)}
           />
         </section>
       </section>
-    );
+    )
   }
 }
-root.render(<App />);
+root.render(<App />)
