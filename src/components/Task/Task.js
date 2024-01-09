@@ -25,14 +25,10 @@ export default class Task extends Component {
       id: event.target.id,
       label: event.target.value,
     })
-    console.log(this.state.label)
-    console.log(this.state.id)
   }
 
   onSubmit(event) {
     event.preventDefault()
-
-    console.log(this.state.label)
 
     this.props.onEditName(parseInt(this.state.id), this.state.label)
   }

@@ -86,7 +86,6 @@ export default class App extends Component {
             newItem = { ...oldItem, seconds: sec }
           }
           newData.push(newItem)
-          console.log(count, this.state.taskData[count].minutes, this.state.taskData[count].seconds)
         }
         count += 1
       })
