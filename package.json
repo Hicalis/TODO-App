@@ -63,7 +63,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "npm eslint ./src --fix",
+      "npm run lint:fix",
       "npx prettier ./src --write"
     ]
   }
