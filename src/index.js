@@ -16,6 +16,7 @@ export default class App extends Component {
       filter: 'All',
     }
     this.maxId = 100
+    this.timer()
   }
 
   deleteItem(id) {
@@ -50,6 +51,50 @@ export default class App extends Component {
     })
   }
 
+  editTime(id, isPause) {
+    this.setState(({ taskData }) => {
+      const idx = taskData.findIndex((el) => el.id === id)
+      const oldItem = taskData[idx]
+      const newItem = { ...oldItem, isPause: isPause }
+      const newData = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)]
+      return {
+        taskData: newData,
+      }
+    })
+  }
+
+  timer() {
+    setInterval(() => {
+      let count = 0
+      let newData = []
+      this.state.taskData.forEach((element) => {
+        const oldItem = this.state.taskData[count]
+        if (element.isPause || (element.minutes == 0 && element.seconds == 0)) {
+          newData.push(element)
+          count += 1
+          return
+        } else {
+          let newItem = {}
+          if (element.seconds == 0) {
+            if (element.minutes != 0) {
+              let min = element.minutes - 1
+              let sec = 59
+              newItem = { ...oldItem, seconds: sec, minutes: min }
+            }
+          } else {
+            let sec = element.seconds - 1
+            newItem = { ...oldItem, seconds: sec }
+          }
+          newData.push(newItem)
+        }
+        count += 1
+      })
+      this.setState({
+        taskData: newData,
+      })
+    }, 1000)
+  }
+
   editTask(id) {
     this.setState(({ taskData }) => {
       const idx = taskData.findIndex((el) => el.id === id)
@@ -62,8 +107,8 @@ export default class App extends Component {
     })
   }
 
-  addItem(text) {
-    const newItem = this.createTodoItem(text)
+  addItem(text, minutes, seconds) {
+    const newItem = this.createTodoItem(text, minutes === '' ? 0 : minutes, seconds === '' ? 0 : seconds)
     this.setState(({ taskData }) => {
       const newData = [...taskData, newItem]
       return {
@@ -84,7 +129,7 @@ export default class App extends Component {
     })
   }
 
-  createTodoItem(descriptionName) {
+  createTodoItem(descriptionName, minutes, seconds) {
     const date = new Date()
     return {
       id: this.maxId++,
@@ -92,6 +137,9 @@ export default class App extends Component {
       descriptionName,
       isEditing: false,
       isCompleted: false,
+      minutes,
+      seconds,
+      isPause: true,
     }
   }
 
@@ -144,6 +192,7 @@ export default class App extends Component {
             onCompleted={this.completeTask.bind(this)}
             onEditing={this.editTask.bind(this)}
             onEditName={this.nameEdit.bind(this)}
+            onEditTime={this.editTime.bind(this)}
           />
           <Footer
             filter={this.state.filter}

@@ -14,41 +14,11 @@ export default class TaskList extends Component {
     }
   }
 
-  onLabelChange(event) {
-    this.setState({
-      id: event.target.id,
-      label: event.target.value,
-    })
-  }
-
-  onSubmit(event) {
-    event.preventDefault()
-    if (this.state.label == '' || /^ *$/.test(this.state.label)) {
-      return
-    }
-    this.props.onEditName(parseInt(this.state.id), this.state.label)
-    this.setState({
-      id: 1,
-      label: '',
-    })
-  }
-
   render() {
-    const { todos, onDeleted, onCompleted, onEditing } = this.props
+    const { todos, onDeleted, onCompleted, onEditing, onEditTime, onEditName } = this.props
 
     const elements = todos.map((item) => {
-      const { id } = item
-
-      if (item.isEditing) {
-        return (
-          <li className="editing" key={id}>
-            <form onSubmit={this.onSubmit.bind(this)}>
-              <Task name={item.descriptionName} time={item.createdTime} />
-              <input id={id} type="text" className="edit" onChange={this.onLabelChange.bind(this)} />
-            </form>
-          </li>
-        )
-      }
+      const { id, isEditing, descriptionName, createdTime, isPause, minutes, seconds } = item
 
       if (item.isCompleted) {
         return (
@@ -63,8 +33,13 @@ export default class TaskList extends Component {
               onCompleted={() => {
                 onCompleted(id)
               }}
-              name={item.descriptionName}
-              time={item.createdTime}
+              name={descriptionName}
+              time={createdTime}
+              minutes={minutes}
+              seconds={seconds}
+              isPause={isPause}
+              onEditTime={onEditTime}
+              id={id}
             />
           </li>
         )
@@ -73,6 +48,7 @@ export default class TaskList extends Component {
       return (
         <li key={id}>
           <Task
+            onEditName={onEditName}
             onEditing={() => {
               onEditing(id)
             }}
@@ -82,8 +58,14 @@ export default class TaskList extends Component {
             onCompleted={() => {
               onCompleted(id)
             }}
-            name={item.descriptionName}
-            time={item.createdTime}
+            name={descriptionName}
+            time={createdTime}
+            minutes={minutes}
+            seconds={seconds}
+            isPause={isPause}
+            onEditTime={onEditTime}
+            id={id}
+            isEditing={isEditing}
           />
         </li>
       )
