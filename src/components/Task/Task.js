@@ -1,82 +1,55 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
-import PropTypes from 'prop-types'
 
-export default class Task extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isPause: this.props.isPause,
-      id: this.props.id,
-      label: this.props.name,
-    }
+const Task = (props) => {
+  const { name, time, onDeleted, onCompleted, onEditing, minutes, seconds, isEditing, id } = props
+
+  const [ids, setId] = useState(props.id)
+  const [label, setLabel] = useState(props.name)
+
+  const playTimer = () => {
+    props.onEditTime(props.id, false)
   }
 
-  playTimer() {
-    this.props.onEditTime(this.props.id, false)
+  const stopTimer = () => {
+    props.onEditTime(props.id, true)
   }
 
-  stopTimer() {
-    this.props.onEditTime(this.props.id, true)
+  const onLabelChange = (event) => {
+    setId(event.target.id)
+    setLabel(event.target.value)
   }
 
-  onLabelChange(event) {
-    this.setState({
-      id: event.target.id,
-      label: event.target.value,
-    })
-  }
-
-  onSubmit(event) {
+  const onSubmit = (event) => {
     event.preventDefault()
-
-    this.props.onEditName(parseInt(this.state.id), this.state.label)
+    props.onEditName(parseInt(ids), label)
   }
 
-  render() {
-    const { name, time, onDeleted, onCompleted, onEditing, minutes, seconds, isEditing, id } = this.props
+  const task = (
+    <div className="view">
+      <input className="toggle" type="checkbox" onClick={onCompleted} />
+      <label>
+        <span className="title">{name}</span>
+        <span className="description">
+          <button className="icon icon-play" onClick={playTimer} />
+          <button className="icon icon-pause" onClick={stopTimer} />
+          {minutes < 10 ? '0' + minutes : minutes}:{seconds < 10 ? '0' + seconds : seconds}
+        </span>
+        <span className="description">{formatDistanceToNow(time, { includeSeconds: true })}</span>
+      </label>
+      <button className="icon icon-edit" onClick={onEditing} />
+      <button className="icon icon-destroy" onClick={onDeleted} />
+    </div>
+  )
 
-    const task = (
-      <div className="view">
-        <input className="toggle" type="checkbox" onClick={onCompleted} />
-        <label>
-          <span className="title">{name}</span>
-          <span className="description">
-            <button className="icon icon-play" onClick={this.playTimer.bind(this)} />
-            <button className="icon icon-pause" onClick={this.stopTimer.bind(this)} />
-            {minutes < 10 ? '0' + minutes : minutes}:{seconds < 10 ? '0' + seconds : seconds}
-          </span>
-          <span className="description">{formatDistanceToNow(time, { includeSeconds: true })}</span>
-        </label>
-        <button className="icon icon-edit" onClick={onEditing} />
-        <button className="icon icon-destroy" onClick={onDeleted} />
-      </div>
+  if (isEditing) {
+    return (
+      <form onSubmit={onSubmit}>
+        <input id={id} type="text" className="edit" onChange={onLabelChange} defaultValue={name} />
+      </form>
     )
-
-    if (isEditing) {
-      return (
-        <form onSubmit={this.onSubmit.bind(this)}>
-          <input id={id} type="text" className="edit" onChange={this.onLabelChange.bind(this)} defaultValue={name} />
-        </form>
-      )
-    }
-
-    return task
   }
-}
 
-Task.defaultProps = {
-  name: '',
-  time: new Date(),
-  onDeleted: () => {},
-  onCompleted: () => {},
-  onEditing: () => {},
+  return task
 }
-
-Task.propTypes = {
-  name: PropTypes.string,
-  time: PropTypes.object,
-  onDeleted: PropTypes.func,
-  onCompleted: PropTypes.func,
-  onEditing: PropTypes.func,
-}
+export default Task
